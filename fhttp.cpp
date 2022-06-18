@@ -206,30 +206,6 @@ int main()
             exit(EXIT_FAILURE);
         }
 		
-		// здесь мы закроем сокет и тут же его заново создадим, однако слушать соединения
-		// начнем только после того, как количество потомков будет меньше максимума
-		// это позволит выдавать Connection refused всем пожключающимя в ненужное время клиентам
-		close(listensock);
-		// создаем сокет для приема соединений
-	    if ((listensock = socket(PF_INET, SOCK_STREAM, 0)) == -1) 
-		{
-	        cerr << "Could not create socket for listening...\n";
-    	    exit(EXIT_FAILURE);
-	    }
-		// так как сокет пересоздается сразу после закрытия, нужна опция SO_REUSEADDR
-		if (setsockopt(listensock, SOL_SOCKET, SO_REUSEADDR, (&SOCKETOPTIONTRUE), sizeof(SOCKETOPTIONTRUE)) == -1)
-		{
-			cerr << "Could not set socket option...\n";
-			exit(EXIT_FAILURE);
-		}
-		// привязываем сокет к адресу
-    	if (bind(listensock, (struct  sockaddr *)(&listenaddr), sizeof(struct sockaddr_in)) == -1) 
-		{
-    	    cerr << "Could not bind listening socket...\n";
-			perror("bind");
-	        exit(EXIT_FAILURE);
-    	}
-		
 		// порожден потомок
 		numchildren++;
         // пока не будет возможности принять соединение - ждем
@@ -237,13 +213,6 @@ int main()
 		{
 			sleep(1);
 		}
-	
-		// а теперь включаем прием входящих соединений. Размер очереди - LISTENBACKLOG
-    	if(listen(listensock, LISTENBACKLOG) == -1) 
-		{
-        	cerr << "Could not set socket into listening mode...\n";
-    	    exit(EXIT_FAILURE);
-	    }
 
 	}
 
