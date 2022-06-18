@@ -1,8 +1,10 @@
+#define _XOPEN_SOURCE
 #include "libdate.h"
 #include "constants.h"
 
 #include <time.h>
 #include <locale.h>
+#include <cstring>
 
 #include <sstream>
 #include <string>

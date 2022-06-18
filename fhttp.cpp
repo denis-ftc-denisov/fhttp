@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstdio>
+#include <cstring>
 
 #include <errno.h>
 #include <sys/wait.h>
@@ -12,6 +13,7 @@
 #include <signal.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <unistd.h>
 
 using namespace std;
 
